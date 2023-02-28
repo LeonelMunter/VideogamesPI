@@ -1,0 +1,92 @@
+.Title {
+    text-align: center;
+    font-family: Arial;
+    font-size: 30px;
+    color: #ffffff;
+    text-shadow: 0px 0px 9px #db940f;
+}
+
+.Text {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    text-shadow: 0px 0px 9px #db940f;
+}
+
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+    width: 90px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: 'Click';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+
+.CardContainerAll {
+    background-color: #363535;
+    border-radius: 5%;
+    border: 2px solid #FF8C00;
+    display: flex;
+    width: 100vw;
+}
+
+.CardContainer {
+    /* background-color: #363535; */
+    background: radial-gradient(white 10%, #363535 90%);
+    box-shadow: 0 0 0.5rem 0.5rem #FF8C00;
+    width: 50%;
+    border-radius: 5%;
+    border: 2px solid #FF8C00;
+    position: relative;
+    
+}
+
+.TextContainerAll {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+
+}
+
+.TextContainer {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    color: #ffffff;
+    text-shadow: 0px 0px 9px #db940f;
+    padding: 30px;
+}
