@@ -18,14 +18,14 @@ e.preventDefault()
 dispatch(getVideogameName(name))
 }
 
-return (
+return ( 
     <div>
         <input
         type= 'text'
         placeholder= 'Buscar...'
         onChange={(e) => handleInputChange(e)}
         />
-    <button onClick={(e) => handleSubmit(e)}>Buscar</button>
+    <button type="submit" onClick={(e) => handleSubmit(e)}>Buscar</button>
     </div>
 )
 }

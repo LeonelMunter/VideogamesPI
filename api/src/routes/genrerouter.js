@@ -1,9 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-require("dotenv").config();
-const { Videogame, Genre } = require('../db.js');
-const { YOUR_API_KEY } = process.env;
-const {getApiInfo, getBdInfo, getAllVideogames, getGameById, getGameByName, postAddGame, getGenres} = require('./controllers.js')
+const { Genre } = require('../db.js');
 
 
 router.get("/", async (req, res) => {

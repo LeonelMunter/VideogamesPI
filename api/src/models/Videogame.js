@@ -19,17 +19,20 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     released: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     rating: {
       type: DataTypes.DECIMAL,
+      allowNull: false,
     },
     platforms: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     image: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     createdInDb: {
       type: DataTypes.BOOLEAN,

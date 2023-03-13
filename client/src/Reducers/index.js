@@ -2,7 +2,8 @@ const initialState = {
     videogames: [],
     allVideogames: [],
     genres: [],
-    detail: []
+    detail: [],
+    actualPage: 1,
 }
 
 
@@ -27,6 +28,7 @@ function rootReducer (state= initialState, action) {
             }
 
         case 'GET_NAME_VIDEOGAME':
+            console.log(action.payload)
             return {
                 ...state,
                 videogames: action.payload
@@ -37,7 +39,11 @@ function rootReducer (state= initialState, action) {
                 ...state,
                 detail: action.payload
             }
-
+        case 'CLEAR_VIDEOGAME':
+            return{
+                ...state,
+                detail: action.payload
+            }
             
         case 'FILTER_BY_STATUS':
                 const allVideogames = state.videogames;
@@ -102,7 +108,11 @@ function rootReducer (state= initialState, action) {
                     videogames: sortedArrayRating
                 }
 
-
+        case 'SET_CURRENT_PAGE':
+                return {
+                    ...state,
+                    actualPage: action.payload
+                }
 
         case 'ORDER_BY_NAME':
                         let sortedArray = action.payload === 'asc' ? state.videogames.sort(function(a, b){

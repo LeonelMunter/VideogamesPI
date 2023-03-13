@@ -45,3 +45,20 @@
     opacity: 1;
     right: 0;
 }
+
+.Text {
+    text-align: center;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    text-shadow: 0px 0px 9px #db940f;
+
+    
+}
+
+.TextContainer {
+    text-align: center;
+    width: 100%;
+
+}

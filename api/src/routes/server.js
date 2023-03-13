@@ -1,11 +1,8 @@
 //const express = require("express");
 const { Router } = require('express');
-const { Videogame, Genre } = require('../db.js');
-const {getApiInfo, getBdInfo, getAllVideogames, getGameById, getGameByName, postAddGame, getGenres} = require('./controllers.js')
+const { getAllVideogames, getGameById, getGameByName, postAddGame} = require('./controllers.js')
 const router = Router();
-const axios = require('axios');
-require("dotenv").config();
-const { YOUR_API_KEY } = process.env;
+
 
 
 
@@ -16,16 +13,15 @@ router.get("/", async (req, res) => {
     //no hay request
     try {
         const { name } = req.query;
+        
         //let results = [];
-        if(!name){
+         if (!name){
             var results = await getAllVideogames();
-    
         } else {
             var results = await getGameByName(name);
-
         }
         if(results.length === 0) {
-            return res.status(404).send('The query parameter not matches with a game')
+            return res.status(200).send('The query parameter not matches with a game')
         }
         
         res.status(200).send(results)

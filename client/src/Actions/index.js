@@ -78,6 +78,14 @@ export function getDetail (id) {
     }
 }
 
+export function clearVideogame () {
+    return function (dispatch){
+        return dispatch({
+            type: 'CLEAR_VIDEOGAME',
+            payload: []
+        })
+    }
+}
 export function filterVideoGamesByStatus (payload) {
     return {
         type: 'FILTER_BY_STATUS',
@@ -98,6 +106,7 @@ export function orderByName (payload){
         payload
     }
 }
+
 export function orderByRating (payload){
     return{
         type: 'ORDER_BY_RATING',
@@ -112,3 +121,9 @@ export function filterByGenres (payload){
     }
 }
 
+export function setCurrentPage (payload){
+    return {
+        type: 'SET_CURRENT_PAGE',
+        payload
+    }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideogame, filterCreated, orderByName, orderByRating, filterByGenres, getGenres } from "../../Actions/index";
+import { getVideogame, filterCreated, orderByName, orderByRating, filterByGenres, getGenres, setCurrentPage } from "../../Actions/index";
 import { Link } from "react-router-dom";
 import Card from '../Card/Card';
 import Paginado from "../Pagination/Pagination";
@@ -13,18 +13,21 @@ import SearchBar from "../SearchBar/SearchBar";
 export default function Home () {
     const dispatch = useDispatch();
     const allVideogames = useSelector ((state) => state.videogames);
+    // console.log("SOY EL ALL", allVideogames)
     const allGenres = useSelector ((state) => state.genres);
-    const [currentPage, setCurrentPage] = useState(1)
+    // const [currentPage, setCurrentPage] = useState(1)
     const [videogamesPerPage, setVideogamesPerPage] = useState(15)
+    const currentPage = useSelector((state) => state.actualPage)
+    const [active, setActive] = useState({[currentPage]: true})
     const [orden, setOrden] = useState('')
     const indexofLastVideogame = currentPage * videogamesPerPage
     const indexOfFirstVideogame = indexofLastVideogame - videogamesPerPage
     const currentVideogames = allVideogames.slice(indexOfFirstVideogame, indexofLastVideogame)
+    // console.log("SOY CURRENT", currentVideogames)
 
-
-    const paginado = (pageNumber) => {
-        setCurrentPage(pageNumber)
-    };
+    // const paginado = (pageNumber) => {
+    //     setCurrentPage(pageNumber)
+    // };
 
     useEffect(()=> {
         dispatch(getVideogame())
@@ -45,10 +48,10 @@ export default function Home () {
     function handlerFilterGenres(e){
         e.preventDefault();
         if(e.target.value !== 'genres'){
-            console.log("ENTRE HANDLER FILTER CASO DISTINTO DE GENRES")
+            // console.log("ENTRE HANDLER FILTER CASO DISTINTO DE GENRES")
             dispatch(filterByGenres(e.target.value))
         } else {
-            console.log("GENRES")
+            // console.log("GENRES")
             dispatch(getVideogame)
         }
     }
@@ -64,7 +67,9 @@ export default function Home () {
         setOrden(`Ordenado ${e.target.value}`)
     };
 
-
+    // function handler() {
+    //     alert("El juego no existe")
+    // }
 
 
     return (
@@ -100,20 +105,24 @@ export default function Home () {
 
         <Paginado videogamesPerPage={videogamesPerPage}
         allVideogames={allVideogames.length}
-        paginado={paginado}/>
+        active={active} setActive={setActive}/>
 
     <SearchBar/>
     
         <div className={s.CardsContainer}>
-    { currentVideogames?.map(el => {
+    { 
+            Array.isArray(currentVideogames)? currentVideogames?.map(el => {
         return (
             <div>
                 <Link to={'/home/' + el.id}>
                 <Card name={el.name} image={el.image} genres={el.genres} rating={el.rating} createdInDb={el.createdInDb}></Card>
                 </Link>
-            </div>
+            </div> 
     )
-            })
+            }) : <div className={a.TextContainer}><p className={a.Text}>El Videojuego no se ha encontrado, apretar en el botón "volver a cargar"...</p>
+            {/* <Link to={'/home'} className={a.button}>Volver</Link> */}
+            
+            </div>
         }
         </div>
 

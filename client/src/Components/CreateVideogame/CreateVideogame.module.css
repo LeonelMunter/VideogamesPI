@@ -9,7 +9,7 @@
 .Text {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 100;
     color: #ffffff;
     text-shadow: 0px 0px 9px #db940f;
@@ -61,8 +61,8 @@
 .divContainer {
     background-color: #363535;
     /* background: url('./446441.jpg'); */
-    width: 600px;
-    height: auto;
+    width: 80%;
+    height: 600px;
     border-radius: 5%;
     border: 2px solid #FF8C00;
     position: relative;
@@ -129,16 +129,16 @@
 
 .firstColumn {
     /* background-color: greenyellow; */
-    height: 12rem;
+    height: auto;
     display: flex;
     flex-direction: column;
-    width: 75%;
+    width: 100%;
     justify-content: space-around;
 }
 
 .divCardContainer {
     /* background-color: blue; */
-    display: flex;
+    display:list-item;
     justify-content: flex-end;
 }
 
@@ -146,6 +146,7 @@
     /* background-color: green; */
     display: flex;
     justify-content: space-around;
+    /* flex-direction: column; */
 
 }
 
@@ -183,4 +184,62 @@
     justify-content: center;
     align-items: center;
     align-self: flex-end;
+}
+
+.TextContainer {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 100;
+    color: #ffffff;
+    text-shadow: 0px 0px 9px #db0fd4;
+    
+}
+
+.right {
+   
+}
+
+.buttons {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    padding: 20px;
+    width: 7rem;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    margin-top: 70px;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.buttons span:after {
+    content: 'Click';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.buttons:hover span {
+    padding-right: 25px;
+}
+
+.buttons:hover span:after {
+    opacity: 1;
+    right: 0;
 }

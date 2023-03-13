@@ -8,6 +8,7 @@ export default function CreateVideogame (){
     const dispatch = useDispatch();
     const Allgenres = useSelector((state) => state.genres);
     const history = useHistory();
+    const allVideogames = useSelector((state) => state.allVideogames);    
 
     const platformsApi = [
         "PC", "PlayStation 5", "PlayStation 4", "PlayStation 3", "Xbox One", "Xbox Series S/X", "Xbox 360", "Xbox",
@@ -23,9 +24,106 @@ export default function CreateVideogame (){
         genres: [],
       });
 
+    const [errors, setErrors] = useState({
+        name: "",
+        description: "",
+        released: "",
+        rating: "",
+        platforms: "",
+        image: "",
+        genres: "",
+    })
+    // console.log("SOY EL ERRORS", errors)
       useEffect(() => {
         dispatch(getGenres())
       }, []);
+
+      function validate () {
+        // console.log("ENTRE VALIDATE")
+        // console.log("SOY EL OTRO INPUT", input)
+
+        const inputValues = Object.entries(input) //genera un arreglo de tuplas de un objeto que vos le pases. Las tuplas son mini arreglos donde vos guardas el key por un lado y el valor por el otro.
+        const objectError = {}
+        const errorsMessages = {
+
+            name: "el nombre es requerido",
+            description: "la descripcion es requerida",
+            image: "la imagen es requerida",
+            released: "La fecha de lanzamiento es requerida",
+            rating: "El rating es requerido",
+            platforms: "Debes elegir al menos una plataforma",
+            genres: "Al menos un genero es requerido"
+        }
+
+        inputValues.forEach(([key, value]) => {
+            // console.log(key, value)
+            if(value === "" || value.length === 0 ) {
+                return Object.assign(objectError, { 
+                // key: `El ${key} es requerido/a`
+                [key]: errorsMessages[key]
+            })
+            }
+        })
+        return setErrors(objectError)
+    
+        // if(input.name === "") {
+        //         setErrors({...errors, 
+        //             name:"El nombre es requerido"})
+        //             // console.log("FINAL IF NAME", errors)
+        //     } else {
+        //         setErrors({...errors, 
+        //             name:""})
+        //     } 
+      
+        // if (input.image === "") {
+        //     setErrors({...errors, 
+        //     image:"la imagen es requerida"})
+        // } else {
+        //     setErrors({...errors, 
+        //         image:""})
+        // } 
+        // if (input.description === "") {
+        //     // console.log("IF DESCRIPTION", errors)
+        //     setErrors({...errors, 
+        //         description:"La descripción es requerida"})
+        // } else {
+        //     setErrors({...errors, 
+        //         description:""})
+        // } 
+        // if (!input.platforms) {
+        //     setErrors({...errors, 
+        //         platforms:"La plataforma es requerida"})
+        // } else {
+        //     setErrors({...errors, 
+        //         platforms:""})
+        // } 
+        // if (!input.released) {
+        //     setErrors({...errors, 
+        //         released:"La fecha de lanzamiento es requerida"})
+        // } else {
+        //     setErrors({...errors, 
+        //         released:""})
+        // } 
+        // if (!input.rating) {
+        //     setErrors({...errors, 
+        //         rating:"El rating es requerido"})
+        // } else {
+        //     setErrors({...errors, 
+        //         rating:""})
+        // } 
+        // if (!input.genres) {
+        //     setErrors({...errors, 
+        //         genres:"El genero es requerido"})
+        // }else {
+        //     setErrors({...errors, 
+        //         genres:""})
+        // }
+        // console.log("SOY EL ERRORS", errors)
+    }
+
+    useEffect(() => {
+        validate()
+      }, [input]);
 
 
       function handlerChange(e) {
@@ -33,6 +131,8 @@ export default function CreateVideogame (){
             ...input,
             [e.target.name]: e.target.value
         })
+        // console.log("SOY EL INPUT", input)
+        // console.log("SOY EL ERRORS", errors)
       }
 
     //   function handleCheck(e) {
@@ -45,17 +145,26 @@ export default function CreateVideogame (){
     //   }
 
     function handlerSelectGenres (e) {
-        setInput({
-            ...input,
-            genres: [...input.genres, e.target.value]
-        })
+        if(input.genres?.includes(e.target.value)){
+            alert("El género ya fue seleccionado")
+        } else {
+            setInput({
+                ...input,
+                genres: [...input.genres, e.target.value]
+            })
+        }
     }
 
     function handlerSelectPlatforms (e) {
-        setInput({
-            ...input,
-            platforms: [...input.platforms, e.target.value]
-        })
+        if(input.platforms?.includes(e.target.value)) {
+            alert("La plataforma ya fue seleccionada")
+        }else{
+            setInput({
+                ...input,
+                platforms: [...input.platforms, e.target.value]
+            })
+
+        }
     }
 
     function handlerDeleteGenres (e) {
@@ -72,31 +181,44 @@ export default function CreateVideogame (){
         })
     }
 
+    
+
     function handlerSubmit (e) {
         e.preventDefault();
-        //console.log(input)
-        dispatch(postVideogame(input))
-        alert("El Videojuego ha sido creado con éxito")
-        setInput({
-            name: "",
-            description: "",
-            released: "",
-            rating: "",
-            platforms: [],
-            image: "",
-            genres: [],
-        })
-        history.push('/home')
+        //console.log(input.name)
+        // console.log("SOY TARGET NAME",input.name)
+        // console.log("SOY EL ALLVIDEOGAMES", allVideogames[0])
+        // console.log("Soy el include", allVideogames.includes(input.name))
+        if(allVideogames.some((e) => e.name === input.name)){
+
+           return alert("Éste juego ya existe")
+        } else {
+
+            dispatch(postVideogame(input))
+            alert("El Videojuego ha sido creado con éxito")
+            setInput({
+                name: "",
+                description: "",
+                released: "",
+                rating: "",
+                platforms: [],
+                image: "",
+                genres: [],
+            })
+            history.push('/home')
+        }
     }
 
       return (
 <div className={s.backGround}>
     <div className={s.divContainerAll}>
         <div className={s.divContainer}>
-            <Link to='/home'><button className={s.button}>Volver</button></Link>
+            <div>
             <h1 className={s.Title}>Creá tu Videojuego</h1>
+
+            </div>
             <form onSubmit={e => handlerSubmit(e)}>
-                <div>
+            <div>
                 <div className={s.firstColumn}>
                 <div className={s.divCardContainer}>
                     <label className={s.Text}> Nombre:</label>
@@ -107,7 +229,10 @@ export default function CreateVideogame (){
                     placeholder='Videogame'
                     onChange={e => handlerChange(e)}
                     required={true}
-                    />               
+                    />
+                </div>
+                <div className={s.right}>
+                    {errors.name&&(<p className={s.TextContainer}>{errors.name}</p>)}               
                 </div>
 
                 <div className={s.divCardContainer}>
@@ -121,21 +246,28 @@ export default function CreateVideogame (){
                     required={true}
                     />
                 </div>
+                <div>
+                {errors.description&&(<p className={s.TextContainer}>{errors.description}</p>)} 
+                </div>
 
                 <div className={s.divCardContainer}>
                     <label className={s.Text}>Fecha de lanzamiento:</label>
                     <input
-                    type='text'
+                    type='date'
                     value={input.released}
                     name='released'
                     onChange={e => handlerChange(e)}
+                    required={true}
                     />
+                </div>
+                <div>
+                    {errors.released&&(<p className={s.TextContainer}>{errors.released}</p>)} 
                 </div>
 
                 <div className={s.divCardContainer}>
                     <label className={s.Text}>Rating:</label>
                     <input
-                    type='text'
+                    type='number'
                     value={input.rating}
                     name='rating'
                     placeholder='0.00 - 5.00'
@@ -143,11 +275,15 @@ export default function CreateVideogame (){
                     max={5}
                     step={0.01}
                     onChange={e => handlerChange(e)}
+                    required={true}
                     />
+                </div>
+                <div>
+                    {errors.rating&&(<p className={s.TextContainer}>{errors.rating}</p>)} 
                 </div>
 
                 <div className={s.divCardContainer}>
-                    <label className={s.Text}>Select:</label>
+                    <label className={s.Text}>Plataformas:</label>
                     {/* <input
                     // type='text'
                     // value={input.platforms}
@@ -155,14 +291,16 @@ export default function CreateVideogame (){
                     // // onChange={e => handlerChange(e)}
                     /> */}
                     
-                     <select required={true} onChange={e => handlerSelectPlatforms(e)}>
-                        <option value="default">Plataformas</option>
-                    {platformsApi.map((el) =>( 
-                        <option key={el.id} value={el}>{el}</option>)
+                     <select onChange={e => handlerSelectPlatforms(e)}>
+                        <option hidden value="default">Selecciona tus Plataformas...</option>
+                    {platformsApi.map((el, i) =>( 
+                        <option key={i} value={el}>{el}</option>)
                     )}
                     </select>
                     {/* <ul><li>{input.platforms.map(el => el + " ,")}</li></ul> */}
-
+                </div>
+                <div>
+                    {errors.platforms&&(<p className={s.TextContainer}>{errors.platforms}</p>)}     
                 </div>
 
                 <div className={s.divCardContainer}>
@@ -173,24 +311,29 @@ export default function CreateVideogame (){
                     name='image'
                     placeholder='Img URL'
                     onChange={e => handlerChange(e)}
+                    required={true}
                     />
                 </div>
+                <div></div>
+                    {errors.image&&(<p className={s.TextContainer}>{errors.image}</p>)} 
                 
                 <div className={s.divCardContainer}>
-                    <label className={s.Text}>Select:</label>
+                    <label className={s.Text}>Géneros:</label>
                     <select onChange={e => handlerSelectGenres(e)}>
-                    <option value="default">Géneros</option>
+                    <option hidden value="default">Selecciona tus generos...</option>
                     {Allgenres.map((el) =>( 
                         <option key={el.id} value={el.name}>{el.name}</option>)
                     )}
                     </select>
                     {/* <ul><li>{input.genres.map(el => el + " ,")}</li></ul> */}
-
+                </div>
+                <div>
+                    {errors.genres&&(<p className={s.TextContainer}>{errors.genres}</p>)}
                 </div>
                 </div>
                 </div>
-
-                <button type="submit" className={s.button}>Crear Videojuego</button>
+                <Link to='/home'><button className={s.button}>Volver</button></Link>
+                <button type="submit" className={s.buttons} disabled={!input.genres.length || !input.platforms.length}>Crear Videojuego</button>
 
             </form>
         </div>

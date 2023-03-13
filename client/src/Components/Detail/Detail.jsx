@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from '../../Actions/index.js'
+import { getDetail, clearVideogame } from '../../Actions/index.js'
 import { useEffect, useState } from "react";
 import s from "./Detail.module.css"
 
@@ -25,9 +25,11 @@ export default function Detail (props) {
         const fraseDescriptionFirst = myVideogame.description.split("<p>").join()
         var fraseFinal = fraseDescriptionFirst.split("</p>").join()
         }
+
         useEffect(()=> {
             const getDetailsGame = async () => {
                 dispatch(getDetail(props.match.params.id))
+                dispatch(clearVideogame())
 
             }
 
@@ -39,7 +41,10 @@ export default function Detail (props) {
 
         },[])
 
-        
+        // useEffect(() => {
+        //     dispatch(clearVideogame())
+        //     dispatch(getDetail(props.match.params.id))
+        // }, [dispatch, props.match.params.id])
         
         
         // useEffect(()=> {
@@ -53,7 +58,7 @@ return loading?(<>Loading...</>): (
 <div>
         
        {
-            myVideogame !== null ?
+            myVideogame.length !== 0 ?
     <div className={s.CardContainerAll}>
         <div className={s.CardContainer}>
         <h1 className={s.Title}>VIDEOJUEGO: {myVideogame?.name}</h1>

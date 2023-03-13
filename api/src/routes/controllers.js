@@ -49,9 +49,9 @@ const getBdInfo = async () => {
             include: {
                 model: Genre,
                 attributes: [ 'name' ],
-                throught: {
-                    attributes: [],
-                },
+                // throught: {
+                //     attributes: [],
+                // },
             }
         });
     
@@ -79,7 +79,7 @@ const getGameById = async (idVideogame) => {
     try {
         // console.log("SOY EL IDVIDEOGAME", idVideogame)
         // console.log("SOY EL IDVIDEOGAME", typeof idVideogame)
-        if(idVideogame.length < 5) {
+        if(idVideogame.length < 6) {
             const infoApi = await axios.get(`https://api.rawg.io/api/games/${idVideogame}?key=${YOUR_API_KEY}`)
             let infoGame = {
                      id: infoApi.data.id,
